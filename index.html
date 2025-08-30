@@ -1,0 +1,188 @@
+<!--
+  GitHub Landing Page (index.html)
+  - Single standalone HTML file
+  - Edit the LINKS array in the <script> section to add/remove items
+  - Save as index.html and push to the root of your GitHub repository
+  - Enable GitHub Pages (branch: main / folder: root) to publish automatically
+-->
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>صفحهٔ اصلی — پروژه‌ها و ویکی‌ها</title>
+  <meta name="description" content="صفحهٔ فرود شخصی برای پیوند به ویکی‌ها، پروژه‌ها و محتوای شما." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1:#0f1724; --bg2:#071029; --accent:#7c3aed; --muted:#94a3b8; --card:#0b1220;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      margin:0; background:linear-gradient(180deg,var(--bg1),var(--bg2)); color:#e6eef8; -webkit-font-smoothing:antialiased;
+      display:flex; align-items:center; justify-content:center; padding:40px;
+    }
+    .wrap{width:100%;max-width:980px}
+
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03); border-radius:16px; padding:28px}
+
+    header{display:flex;align-items:center;gap:18px}
+    .logo{width:72px;height:72px;flex-shrink:0;border-radius:12px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:grid;place-items:center;font-weight:800;font-size:20px;color:white;box-shadow:0 6px 24px rgba(124,58,237,.14)}
+    h1{margin:0;font-size:22px}
+    p.lead{margin:4px 0 0;color:var(--muted)}
+
+    .controls{margin-top:18px;display:flex;gap:8px;flex-wrap:wrap}
+    .btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:600}
+    .btn.ghost{background:transparent}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),#06b6d4);border:none;color:white}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:20px}
+    .tile{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.02);min-height:88px;display:flex;flex-direction:column;justify-content:space-between}
+    .tile h3{margin:0;font-size:16px}
+    .tile p{margin:8px 0 0;color:var(--muted);font-size:13px}
+
+    .small{font-size:13px;color:var(--muted)}
+    .footer{display:flex;justify-content:space-between;align-items:center;margin-top:18px;color:var(--muted);font-size:13px}
+
+    /* animated background blobs */
+    .blobs{position:fixed;inset:0;pointer-events:none;z-index:0}
+    .blob{position:absolute;filter:blur(60px);opacity:.28;mix-blend-mode:screen}
+
+    /* modal */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.6);z-index:40}
+    .modal.open{display:flex}
+    .modal .panel{width:100%;max-width:720px;background:linear-gradient(180deg,#031124,#071429);border-radius:12px;padding:20px;border:1px solid rgba(255,255,255,0.03)}
+
+    /* responsive */
+    @media (max-width:520px){body{padding:20px}.logo{width:56px;height:56px}}
+  </style>
+</head>
+<body>
+  <div class="blobs" aria-hidden>
+    <svg class="blob" style="left:5%;top:10%;width:360px;height:360px"><defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs><circle cx="180" cy="180" r="160" fill="url(#g1)" /></svg>
+    <svg class="blob" style="right:2%;bottom:5%;width:420px;height:420px"><defs><linearGradient id="g2" x1="0" x2="1"><stop offset="0" stop-color="#06b6d4"/><stop offset="1" stop-color="#7c3aed"/></linearGradient></defs><circle cx="210" cy="210" r="190" fill="url(#g2)" /></svg>
+  </div>
+
+  <div class="wrap card" style="position:relative;z-index:10">
+    <header>
+      <div class="logo">GH</div>
+      <div>
+        <h1>خوش آمدی — مرکز پروژه‌ها و ویکی‌ها</h1>
+        <p class="lead">اینجا می‌تونی به همهٔ ویکی‌ها، دموها و مستندات من دسترسی داشته باشی. لینک‌ها رو پایین ویرایش کن.</p>
+      </div>
+      <div style="margin-inline-start:auto;display:flex;gap:8px;align-items:center">
+        <button class="btn" id="themeToggle" title="تغییر حالت">🌙</button>
+        <a class="btn ghost" href="#about" id="aboutBtn">درباره</a>
+        <button class="btn primary" id="openAll">باز کردن همه</button>
+      </div>
+    </header>
+
+    <div class="controls">
+      <span class="small">نکته: لینک‌ها را در انتهای این فایل در بخش <code>links</code> ویرایش کن.</span>
+    </div>
+
+    <main>
+      <div class="grid" id="linksGrid" aria-live="polite"></div>
+
+      <div class="footer">
+        <div>© <span id="year"></span> نام شما — همهٔ حقوق محفوظ</div>
+        <div class="small">ساخته‌شده برای GitHub Pages — فایل: <code>index.html</code></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- About / Instructions Modal -->
+  <div class="modal" id="modal">
+    <div class="panel">
+      <h3>چطور لینک‌ها رو ویرایش کنم؟</h3>
+      <ol>
+        <li>فایل <code>index.html</code> را باز کنید</li>
+        <li>در پایین فایل، آرایهٔ <code>links</code> را با لینک‌های خودتان جایگزین کنید</li>
+        <li>فایل را ذخیره و پوش کنید — اگر GitHub Pages فعال باشد، سایتتان زنده می‌شود</li>
+      </ol>
+      <p class="small">نیاز داری من برات فایل README یا قالب README برای ویکی‌ها بسازم؟ بگو تا همونجا اضافه کنم.</p>
+      <div style="text-align:left;margin-top:12px"><button class="btn" id="closeModal">بستن</button></div>
+    </div>
+  </div>
+
+  <script>
+    // ====== Customize links below ======
+    // هر آیتم باید {title, url, desc, type} باشد. type می‌تواند: wiki | demo | repo | blog
+    const links = [
+      {title: 'ویکی پروژهٔ الف', url: 'https://github.com/yourname/your-repo/wiki', desc: 'مستندات و نکات طراحی', type: 'wiki'},
+      {title: 'دموی تعاملی', url: 'https://yourname.github.io/demo', desc: 'نسخهٔ زندهٔ پروژه', type: 'demo'},
+      {title: 'مخزن کد', url: 'https://github.com/yourname/your-repo', desc: 'کد منبع و issue ها', type: 'repo'},
+      {title: 'یادداشت‌ها و بلاگ', url: 'https://yourname.github.io/blog', desc: 'پست‌ها و یادداشت‌ها', type: 'blog'}
+    ];
+    // ==================================
+
+    const grid = document.getElementById('linksGrid');
+    const year = document.getElementById('year');
+    year.textContent = new Date().getFullYear();
+
+    function iconFor(type){
+      switch(type){
+        case 'wiki': return '📚';
+        case 'demo': return '🚀';
+        case 'repo': return '💻';
+        case 'blog': return '✍️';
+        default: return '🔗';
+      }
+    }
+
+    function makeTile(l){
+      const t = document.createElement('a');
+      t.href = l.url; t.target = '_blank'; t.rel = 'noopener'; t.className='tile';
+      t.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:start"><h3>${l.title}</h3><div style="font-size:20px">${iconFor(l.type)}</div></div><p>${l.desc || ''}</p>`;
+      return t;
+    }
+
+    function render(){
+      grid.innerHTML='';
+      for(const l of links){
+        grid.appendChild(makeTile(l));
+      }
+    }
+    render();
+
+    // theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    let dark = true;
+    themeToggle.addEventListener('click', ()=>{
+      dark = !dark;
+      if(!dark){
+        document.body.style.background = 'linear-gradient(180deg,#f8fafc,#eef2ff)';
+        document.body.style.color = '#071428';
+        themeToggle.textContent='🌞';
+      } else {
+        document.body.style.background = 'linear-gradient(180deg,var(--bg1),var(--bg2))';
+        document.body.style.color = '#e6eef8';
+        themeToggle.textContent='🌙';
+      }
+    });
+
+    // modal
+    const aboutBtn = document.getElementById('aboutBtn');
+    const modal = document.getElementById('modal');
+    const closeModal = document.getElementById('closeModal');
+    aboutBtn.addEventListener('click',(e)=>{e.preventDefault(); modal.classList.add('open')});
+    closeModal.addEventListener('click', ()=> modal.classList.remove('open'));
+
+    // open all
+    document.getElementById('openAll').addEventListener('click', ()=>{
+      for(const l of links){ window.open(l.url, '_blank'); }
+    });
+
+    // keyboard: ? opens modal
+    document.addEventListener('keydown', (e)=>{ if(e.key==='?') modal.classList.toggle('open') });
+
+    // small tasteful animation: float tiles
+    const style = document.createElement('style');
+    style.innerHTML = `.tile{transition:transform .18s ease, box-shadow .18s ease}.tile:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 10px 30px rgba(2,6,23,.5)}`;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>
